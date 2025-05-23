@@ -15,4 +15,3 @@ gradio
 huggingface_hub
 rembg
 onnxruntime
-pyaudio
