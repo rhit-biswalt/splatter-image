@@ -3,6 +3,7 @@ import torchvision
 import numpy as np
 
 import os
+from argparse import ArgumentParser
 from omegaconf import OmegaConf
 from PIL import Image 
 
@@ -27,11 +28,17 @@ import rembg
 
 from huggingface_hub import hf_hub_download
 
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument('-c', '--cuda', type=str, default="0", help='CUDA device to use')
+    return parser.parse_args()
+
 @torch.no_grad()
 def main():
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-    device = torch.device("cuda:0")
+    args = parse_args()
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.cuda
+    device = torch.device(f"cuda:{args.cuda}")
     torch.cuda.set_device(device)
 
     model_cfg = OmegaConf.load(
@@ -45,7 +52,7 @@ def main():
 
     model = GaussianSplatPredictor(model_cfg)
 
-    ckpt_loaded = torch.load(model_path, map_location=device)
+    ckpt_loaded = torch.load(model_path, map_location=device, weights_only=False)
     model.load_state_dict(ckpt_loaded["model_state_dict"])
     model.to(device)
 
