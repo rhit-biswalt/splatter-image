@@ -1,6 +1,6 @@
 # splatter-image
 
-###Note: view our tests and results in the our_tests and our_results folders
+### Note: view our tests and results in the our_tests and our_results folders
 
 ## From creators
 Official implementation of **"Splatter Image: Ultra-Fast Single-View 3D Reconstruction" (CVPR 2024)**
